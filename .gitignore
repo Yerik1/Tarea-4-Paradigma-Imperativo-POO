@@ -1,0 +1,27 @@
+# Ignorar carpetas de configuración del IDE
+/Servidor/.idea/
+/Cliente/.idea/
+*.iml
+
+# Ignorar carpetas de compilación
+/Servidor/cmake-build-debug/
+/Cliente/out/
+
+# Archivos binarios y temporales
+*.exe
+*.o
+*.obj
+*.class
+*.dll
+*.a
+*.log
+*.stackdump
+
+# Archivos del sistema
+.DS_Store
+Thumbs.db
+
+# Archivos temporales de editores
+*~
+*.swp
+*.swo
