@@ -14,7 +14,7 @@ public class ClienteJava {
              InputStream entrada = socket.getInputStream()) {
 
             // Enviar mensaje al servidor
-            String mensaje = "Hola desde el cliente Java!";
+            String mensaje = "derecha";
             salida.write(mensaje.getBytes());
             salida.flush();
 
