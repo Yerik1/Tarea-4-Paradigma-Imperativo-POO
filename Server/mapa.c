@@ -25,10 +25,10 @@ void inicializar_mapa() {
                         matriz[i][j] = 3; // colocar bloques en el centro para filas 2 y 6
                     }
                 } else {
-                    if(j > 2 && j < 7){
+                    if(j > 2 && j < 8){
                         matriz[i][j] = 3; // colocar bloques a la izquierda
                     }
-                    if(j > 12 && j < 17){
+                    if(j > 11 && j < 17){
                         matriz[i][j] = 3; // colocar bloques a la derecha
                     }
                 }
@@ -39,6 +39,7 @@ void inicializar_mapa() {
 
 void colocar_en_mapa(int fila, int columna, int valor) {
     matriz[fila][columna] = valor;
+    
 }
 
 void eliminar_del_mapa(int fila, int columna) {
@@ -95,26 +96,38 @@ void actualizar_mapa_enemigos() {
     }
 }
 
-void imprimir_mapa_actual() {
+void imprimir_mapa(Jugador* jugadores, int num_jugadores) {
     actualizar_mapa_enemigos();
+    // Coloca a los jugadores en el mapa después de los enemigos
+    for (int j = 0; j < num_jugadores; j++) {
+        colocar_en_mapa(jugadores[j].fila, jugadores[j].columna, 1);
+    }
     for (int i = 0; i < 28; i++) {
         for (int j = 0; j < 20; j++) {
             if (matriz[i][j] == 1) {
-                printf(VERDE "J " RESET); // Jugador en verde
+                printf(VERDE "J " RESET);
             } else if (matriz[i][j] == 2) {
-                printf(AZUL "# " RESET); // Bloque en azul
+                printf(AZUL "# " RESET);
             } else if (matriz[i][j] == 3) {
-                printf(MAGENTA "B " RESET); // Otro tipo de bloque en magenta
+                printf(MAGENTA "B " RESET);
             } else if (matriz[i][j] == 9) {
-                printf(ROJO "Y " RESET); // Yeti en rojo
+                printf(ROJO "Y " RESET);
             } else if (matriz[i][j] == 10) {
-                printf(BLANCO "F " RESET); // Foca en blanco
+                printf(BLANCO "F " RESET);
             } else if (matriz[i][j] == 11) {
                 printf(AMARILLO "A " RESET); // Ave en amarillo
+            } else if (matriz[i][j] == 15) {
+                printf("Ba"); // Banano en amarillo (B de Banano)
+            } else if (matriz[i][j] == 16) {
+                printf("N"); // Banano en amarillo (B de Banano)
+            } else if (matriz[i][j] == 13) {
+                printf("B"); // Berenjena en magenta
+            } else if (matriz[i][j] == 14) {
+                printf("L"); // Lechuga en verde
             } else if (matriz[i][j] == 12) {
-                printf(CYAN "H " RESET); // Hielo en cyan
+                printf(CYAN "H " RESET);
             } else {
-                printf(". "); // Espacio vacío
+                printf(". ");
             }
         }
         printf("\n");

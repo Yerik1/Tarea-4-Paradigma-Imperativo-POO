@@ -1,6 +1,8 @@
 #ifndef ENEMIGOS_H
 #define ENEMIGOS_H
 
+#include "jugador.h"
+
 typedef enum { YETI, FOCA, AVE, HIELO } TipoEnemigo;
 typedef enum { IZQUIERDA, DERECHA, ARRIBA, ABAJO } Direccion;
 
@@ -26,5 +28,6 @@ void crear_yeti(int fila, Direccion direccion);
 void crear_foca(int fila, Direccion direccion);
 void crear_ave(int fila);
 void crear_hielo(int fila, int columna);
+void verificar_colision_jugadores_enemigos(Jugador* jugadores, int num_jugadores);
 
 #endif

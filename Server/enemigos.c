@@ -1,6 +1,8 @@
 #include <stdio.h>
 #include "enemigos.h"
 #include "mapa.h"  // para colocar y borrar en el mapa
+#include "jugador.h" // para acceder al jugador y sus vidas
+#include "vidas.h"
 
 Enemigo enemigos[MAX_ENEMIGOS];
 const int MAX_ENEMIGOS_CONST = MAX_ENEMIGOS;
@@ -155,4 +157,38 @@ void crear_ave(int fila) {
 
 void crear_hielo(int fila, int columna) {
     crear_enemigo(HIELO, fila, columna, ABAJO);
+}
+
+void verificar_colision_jugador_enemigos(Jugador* jugador) {
+    for (int i = 0; i < MAX_ENEMIGOS_CONST; i++) {
+        if (enemigos[i].activo &&
+            enemigos[i].fila == jugador->fila &&
+            enemigos[i].columna == jugador->columna) {
+            printf("¡El jugador ha sido alcanzado por un enemigo! Pierde una vida.\n");
+            perder_vida(jugador, 0); // <-- Agregar índice 0 para el jugador único
+            colocar_en_mapa(jugador->fila, jugador->columna, 1); // Mantener al jugador en su posición
+            break; // Solo perder una vida por turno
+        }
+    }
+}
+
+// Permite hasta 2 jugadores
+void verificar_colision_jugadores_enemigos(Jugador* jugadores, int num_jugadores) {
+    for (int j = 0; j < num_jugadores; j++) {
+        int colision = 0;
+        for (int i = 0; i < MAX_ENEMIGOS_CONST; i++) {
+            if (enemigos[i].activo &&
+                enemigos[i].fila == jugadores[j].fila &&
+                enemigos[i].columna == jugadores[j].columna) {
+                printf("vidas restantes del jugador %d: %d\n", j+1, obtener_vidas(j));
+                perder_vida(&jugadores[j], j);
+                colision = 1;
+                break; // Solo perder una vida por turno por jugador
+            }
+        }
+        // Asegura que el jugador se coloque en el mapa si hubo colisión
+        if (colision) {
+            colocar_en_mapa(jugadores[j].fila, jugadores[j].columna, 1);
+        }
+    }
 }
