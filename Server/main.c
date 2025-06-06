@@ -5,9 +5,11 @@
 #include "vidas.h"
 #include "frutas.h"
 #include "puntaje.h"
+#include "Server.h"
 
 int main() {
-    Jugador jugadores[2];
+    start();
+    /*Jugador jugadores[2];
     int num_jugadores = 2; // Ahora dos jugadores
     inicializar_mapa();
     generar_lechugas();
@@ -27,7 +29,7 @@ int main() {
     crear_ave(15);
     crear_hielo(11, 12);
     printf("turno 2\n");
-    imprimir_mapa(jugadores, num_jugadores);
+    imprimir_mapa(jugadores, num_jugadores);*/
     
     
     /*

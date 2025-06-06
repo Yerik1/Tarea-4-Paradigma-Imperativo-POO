@@ -1,0 +1,3 @@
+C:/Users/XPC/Desktop/Tarea-4-Paradigma-Imperativo-POO/Server/cmake-build-debug/CMakeFiles/VSProjectPort.dir
+C:/Users/XPC/Desktop/Tarea-4-Paradigma-Imperativo-POO/Server/cmake-build-debug/CMakeFiles/edit_cache.dir
+C:/Users/XPC/Desktop/Tarea-4-Paradigma-Imperativo-POO/Server/cmake-build-debug/CMakeFiles/rebuild_cache.dir

@@ -1,0 +1,27 @@
+# ninja log v6
+9	75	7708694023751475	CMakeFiles/VSProjectPort.dir/frutas.c.obj	c4187104d5845516
+24	83	7708694023891605	CMakeFiles/VSProjectPort.dir/puntaje.c.obj	ae8ff049b7cc8ce3
+13	713	7708754834630169	CMakeFiles/VSProjectPort.dir/main.c.obj	e455d63c1b46e29
+12	87	7708694023781508	CMakeFiles/VSProjectPort.dir/jugador.c.obj	fe69b7b83a9236fb
+5	98	7708694023701429	CMakeFiles/VSProjectPort.dir/enemigos.c.obj	fc4a04ad4fe7640a
+734	928	7708754841845249	VSProjectPort.exe	46422cb30bb589c8
+28	99	7708694023931641	CMakeFiles/VSProjectPort.dir/vidas.c.obj	f6f43ccbfd59ce9c
+20	100	7708694023851567	CMakeFiles/VSProjectPort.dir/mapa.c.obj	7f5fc2015590a72b
+9	734	7708754834600141	CMakeFiles/VSProjectPort.dir/Server.c.obj	a525a153cb185a7c
+5	69	7708754834560105	CMakeFiles/VSProjectPort.dir/Juego.c.obj	5f8bf98643703c46
+4	699	7708757794054636	CMakeFiles/VSProjectPort.dir/Server.c.obj	a525a153cb185a7c
+699	800	7708757801011102	VSProjectPort.exe	46422cb30bb589c8
+9	696	7708760441776149	CMakeFiles/VSProjectPort.dir/main.c.obj	e455d63c1b46e29
+5	670	7708760639619373	CMakeFiles/VSProjectPort.dir/Server.c.obj	a525a153cb185a7c
+671	760	7708760646277116	VSProjectPort.exe	46422cb30bb589c8
+4	67	7708784960729067	CMakeFiles/VSProjectPort.dir/Juego.c.obj	5f8bf98643703c46
+9	712	7708784960779113	CMakeFiles/VSProjectPort.dir/Server.c.obj	a525a153cb185a7c
+712	819	7708784967806058	VSProjectPort.exe	46422cb30bb589c8
+4	66	7708790724612160	CMakeFiles/VSProjectPort.dir/Juego.c.obj	5f8bf98643703c46
+12	725	7708790724692227	CMakeFiles/VSProjectPort.dir/main.c.obj	e455d63c1b46e29
+9	726	7708790724652186	CMakeFiles/VSProjectPort.dir/Server.c.obj	a525a153cb185a7c
+726	840	7708790731829585	VSProjectPort.exe	46422cb30bb589c8
+5	679	7708792274340802	CMakeFiles/VSProjectPort.dir/Server.c.obj	a525a153cb185a7c
+679	768	7708792281084954	VSProjectPort.exe	46422cb30bb589c8
+5	711	7708794174710364	CMakeFiles/VSProjectPort.dir/Server.c.obj	a525a153cb185a7c
+712	802	7708794181768133	VSProjectPort.exe	46422cb30bb589c8
