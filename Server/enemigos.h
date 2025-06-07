@@ -1,33 +1,28 @@
 #ifndef ENEMIGOS_H
 #define ENEMIGOS_H
 
-#include "jugador.h"
+typedef struct Partida Partida;
+
+#define MAX_ENEMIGOS 10
 
 typedef enum { YETI, FOCA, AVE, HIELO } TipoEnemigo;
-typedef enum { IZQUIERDA, DERECHA, ARRIBA, ABAJO } Direccion;
+typedef enum { DERECHA, IZQUIERDA, ARRIBA, ABAJO } Direccion;
 
 typedef struct {
     TipoEnemigo tipo;
     int fila;
     int columna;
     Direccion direccion;
-    int activo; // 0 si no está en juego, 1 si sí
+    int activo;
 } Enemigo;
 
-#define MAX_ENEMIGOS 20
-
-extern Enemigo enemigos[MAX_ENEMIGOS];
-extern const int MAX_ENEMIGOS_CONST;
-
-void inicializar_enemigos();
-void crear_enemigo(TipoEnemigo tipo, int fila, int columna, Direccion direccion);
-void mover_enemigos();
-void imprimir_enemigos();
-void enviar_enemigos_por_socket(int socket_fd); // si usas sockets más adelante
-void crear_yeti(int fila, Direccion direccion);
-void crear_foca(int fila, Direccion direccion);
-void crear_ave(int fila);
-void crear_hielo(int fila, int columna);
-void verificar_colision_jugadores_enemigos(Jugador* jugadores, int num_jugadores);
+void inicializar_enemigos(Partida* game);
+void crear_ave(Partida* game, int fila);
+void crear_hielo(Partida* game, int fila, int columna);
+void crear_yeti(Partida* game, int fila, Direccion direccion);
+void crear_foca(Partida* game, int fila, Direccion direccion);
+void verificar_colision_jugadores_enemigos(Partida* game, int* proximos_movimientos);
+void mover_enemigos(Partida* game, int* proximos_movimientos);
+void imprimir_enemigos(Partida* game);
 
 #endif

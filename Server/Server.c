@@ -9,7 +9,7 @@
 
 #define MAX_CLIENTES 6
 #define MAX_JUEGOS 2
-#define MAX_JUGADORES_POR_JUEGO 2
+#define MAX_JUGADORES_POR_JUEGO 1
 #define MAX_OBSERVADORES_POR_JUEGO 2
 
 Juego juegos[MAX_JUEGOS];
@@ -31,7 +31,7 @@ void procesar_comando(SOCKET cliente, const char* buffer) {
 
     if (strncmp(buffer, "Crear Juego", 11) == 0) {
         for (int i = 0; i < MAX_JUEGOS; ++i) {
-            if (juegos[i].num_jugadores < MAX_JUGADORES_POR_JUEGO) {
+            if (juegos[i].activo == 0) {
                 juegos[i].jugadores[juegos[i].num_jugadores++] = cliente;
                 juegos[i].activo = 1;
                 iniciar_juego(&juegos[i].juego);
@@ -81,7 +81,7 @@ void procesar_comando(SOCKET cliente, const char* buffer) {
             }
 
             // Mover al jugador correspondiente
-            mover(&juegos[juego_id-1].juego,&juegos[juego_id-1].juego.jugadores[jugador - 1], dx, dy); // Puedes adaptar el segundo parámetro según necesites
+            mover(&juegos[juego_id-1].juego,jugador-1, dx); // Puedes adaptar el segundo parámetro según necesites
             printf("\n");
 
 

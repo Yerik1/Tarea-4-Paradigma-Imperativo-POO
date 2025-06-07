@@ -1,26 +1,33 @@
 #include "puntaje.h"
 #include "mapa.h"
+#include "Juego.h"
 
-static int puntaje = 0;
-
-int obtener_puntaje() {
-    return puntaje;
+void sumar_puntaje(Partida* game, int puntos) {
+    game->puntaje += puntos;
 }
 
-void actualizar_puntaje_por_fruta(int fila, int columna) {
-    int valor = obtener_mapa(fila, columna);
+int obtener_puntaje(Partida* game) {
+    return game->puntaje;
+}
+
+void reiniciar_puntaje(Partida* game) {
+    game->puntaje = 0;
+}
+
+void actualizar_puntaje_por_fruta(Partida* game, int fila, int columna) {
+    int valor = game->matriz[fila][columna];
     switch (valor) {
         case 16: // Naranja
-            puntaje += 100;
+            game->puntaje += 100;
             break;
         case 15: // Banano
-            puntaje += 200;
+            game->puntaje += 200;
             break;
         case 13: // Berenjena
-            puntaje += 300;
+            game->puntaje += 300;
             break;
         case 14: // Lechuga
-            puntaje += 400;
+            game->puntaje += 400;
             break;
         default:
             break;

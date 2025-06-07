@@ -1,0 +1,3 @@
+"C:\Users\user\AppData\Local\JetBrains\CLion 2025.1\bin\cmake\win\x64\bin\cmake.exe" -E rm -f CMakeFiles\VSProjectPort.dir/objects.a
+C:\Users\user\AppData\Local\JETBRA~1\CLION2~1.1\bin\mingw\bin\ar.exe qc CMakeFiles\VSProjectPort.dir/objects.a @CMakeFiles\VSProjectPort.dir\objects1.rsp
+C:\Users\user\AppData\Local\JETBRA~1\CLION2~1.1\bin\mingw\bin\gcc.exe -g -Wl,--whole-archive CMakeFiles\VSProjectPort.dir/objects.a -Wl,--no-whole-archive -o VSProjectPort.exe -Wl,--out-implib,libVSProjectPort.dll.a -Wl,--major-image-version,0,--minor-image-version,0 @CMakeFiles\VSProjectPort.dir\linkLibs.rsp
