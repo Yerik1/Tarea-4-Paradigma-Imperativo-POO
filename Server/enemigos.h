@@ -22,6 +22,8 @@ extern const int MAX_ENEMIGOS_CONST;
 void inicializar_enemigos();
 void crear_ave(int fila);
 void crear_hielo(int fila, int columna);
+void crear_yeti(int fila, Direccion direccion);
+void crear_foca(int fila, Direccion direccion);
 void verificar_colision_jugadores_enemigos(Jugador* jugadores, int num_jugadores, int* proximos_movimientos);
 void mover_enemigos(Jugador* jugadores, int num_jugadores, int* proximos_movimientos);
 

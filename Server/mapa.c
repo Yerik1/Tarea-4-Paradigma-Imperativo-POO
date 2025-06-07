@@ -117,11 +117,11 @@ void imprimir_mapa(Jugador* jugadores, int num_jugadores) {
             } else if (matriz[i][j] == 11) {
                 printf(AMARILLO "A " RESET); // Ave en amarillo
             } else if (matriz[i][j] == 15) {
-                printf("Ba "); // Banano en amarillo (B de Banano)
+                printf(AMARILLO "B " RESET); // Banano en amarillo
             } else if (matriz[i][j] == 16) {
-                printf("N "); // Banano en amarillo (B de Banano)
+                printf("N "); // Naranja
             } else if (matriz[i][j] == 13) {
-                printf("Be "); // Berenjena en magenta
+                printf(MAGENTA "B " RESET); // Berenjena en magenta
             } else if (matriz[i][j] == 14) {
                 printf("L "); // Lechuga en verde
             } else if (matriz[i][j] == 12) {
