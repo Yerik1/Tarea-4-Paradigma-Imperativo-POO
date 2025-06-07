@@ -108,3 +108,23 @@ void sumar_vida_jugador(int idx) {
     if (vidas_jugador[idx] < 99) vidas_jugador[idx]++;
 }
 
+void reiniciar_juego_si_uno_muere(Jugador* jugadores, int num_jugadores) {
+    if (obtener_vidas(0) == 0 || obtener_vidas(1) == 0) {
+        printf("\n¡Has perdido! Ambos jugadores vuelven al inicio.\n");
+        inicializar_vidas(3);
+        extern void reiniciar_puntaje();
+        reiniciar_puntaje();
+        jugadores[0].fila = 27;
+        jugadores[1].fila = 27;
+        colocar_en_mapa(jugadores[0].fila, jugadores[0].columna, 1);
+        colocar_en_mapa(jugadores[1].fila, jugadores[1].columna, 1);
+        extern void inicializar_enemigos();
+        inicializar_enemigos();
+        extern void generar_naranjas();
+        extern void generar_lechugas();
+        generar_naranjas();
+        generar_lechugas();
+        imprimir_mapa(jugadores, num_jugadores);
+    }
+}
+

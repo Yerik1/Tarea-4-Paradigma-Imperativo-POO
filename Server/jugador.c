@@ -35,10 +35,79 @@ void mover_jugador(Jugador* jugadores, int idx, int movimiento, int num_jugadore
                 printf("el personaje rompio un bloque\n");
                 colocar_en_mapa(nuevaFila - 1, nuevaColumna, 0);
             } else if (bloque_arriba == 0) {
+                // Revisar si hay enemigo o hielo en la casilla intermedia
+                for (int i = 0; i < MAX_ENEMIGOS_CONST; i++) {
+                    if (enemigos[i].activo && enemigos[i].fila == nuevaFila - 1 && enemigos[i].columna == nuevaColumna) {
+                        int puntos = 0;
+                        if (enemigos[i].tipo == AVE) {
+                            puntos = 800;
+                            printf("¡Enemigo derrotado durante el salto! +800 puntos\n");
+                        } else if (enemigos[i].tipo == FOCA || enemigos[i].tipo == YETI) {
+                            puntos = 400;
+                            printf("¡Enemigo derrotado durante el salto! +400 puntos\n");
+                        } else if (enemigos[i].tipo == HIELO) {
+                            puntos = 10;
+                            printf("¡Bloque de hielo destruido durante el salto! +10 puntos\n");
+                        }
+                        if (puntos > 0) {
+                            sumar_puntaje(puntos);
+                        }
+                        enemigos[i].activo = 0;
+                        eliminar_del_mapa(nuevaFila - 1, nuevaColumna);
+                        colocar_en_mapa(nuevaFila - 1, nuevaColumna, 1);
+                        break;
+                    }
+                }
                 nuevaFila -= 1;
                 en_aire[idx] = 1;
             }
         } else if (nuevaFila >= 2) {
+            // Revisar si hay enemigo o hielo en la casilla intermedia (fila-1)
+            for (int i = 0; i < MAX_ENEMIGOS_CONST; i++) {
+                if (enemigos[i].activo && enemigos[i].fila == nuevaFila - 1 && enemigos[i].columna == nuevaColumna) {
+                    int puntos = 0;
+                    if (enemigos[i].tipo == AVE) {
+                        puntos = 800;
+                        printf("¡Enemigo derrotado durante el salto! +800 puntos\n");
+                    } else if (enemigos[i].tipo == FOCA || enemigos[i].tipo == YETI) {
+                        puntos = 400;
+                        printf("¡Enemigo derrotado durante el salto! +400 puntos\n");
+                    } else if (enemigos[i].tipo == HIELO) {
+                        puntos = 10;
+                        printf("¡Bloque de hielo destruido durante el salto! +10 puntos\n");
+                    }
+                    if (puntos > 0) {
+                        sumar_puntaje(puntos);
+                    }
+                    enemigos[i].activo = 0;
+                    eliminar_del_mapa(nuevaFila - 1, nuevaColumna);
+                    colocar_en_mapa(nuevaFila - 1, nuevaColumna, 1);
+                    break;
+                }
+            }
+            // Revisar si hay enemigo o hielo en la casilla destino (fila-2)
+            for (int i = 0; i < MAX_ENEMIGOS_CONST; i++) {
+                if (enemigos[i].activo && enemigos[i].fila == nuevaFila - 2 && enemigos[i].columna == nuevaColumna) {
+                    int puntos = 0;
+                    if (enemigos[i].tipo == AVE) {
+                        puntos = 800;
+                        printf("¡Enemigo derrotado durante el salto! +800 puntos\n");
+                    } else if (enemigos[i].tipo == FOCA || enemigos[i].tipo == YETI) {
+                        puntos = 400;
+                        printf("¡Enemigo derrotado durante el salto! +400 puntos\n");
+                    } else if (enemigos[i].tipo == HIELO) {
+                        puntos = 10;
+                        printf("¡Bloque de hielo destruido durante el salto! +10 puntos\n");
+                    }
+                    if (puntos > 0) {
+                        sumar_puntaje(puntos);
+                    }
+                    enemigos[i].activo = 0;
+                    eliminar_del_mapa(nuevaFila - 2, nuevaColumna);
+                    colocar_en_mapa(nuevaFila - 2, nuevaColumna, 1);
+                    break;
+                }
+            }
             int bloque_arriba = obtener_mapa(nuevaFila - 1, nuevaColumna);
             if (bloque_arriba == 3) {
                 colocar_en_mapa(nuevaFila, nuevaColumna, 1); //mantener al jugador en su posición
@@ -96,6 +165,52 @@ void mover_jugador(Jugador* jugadores, int idx, int movimiento, int num_jugadore
                 if (nuevaFila >= 2 && nuevaColumna <= 17 &&
                     obtener_mapa(nuevaFila - 1, nuevaColumna + 1) != 2 &&
                     obtener_mapa(nuevaFila - 2, nuevaColumna + 2) != 2) {
+                    // Revisar casilla intermedia (fila-1, columna+1)
+                    for (int i = 0; i < MAX_ENEMIGOS_CONST; i++) {
+                        if (enemigos[i].activo && enemigos[i].fila == nuevaFila - 1 && enemigos[i].columna == nuevaColumna + 1) {
+                            int puntos = 0;
+                            if (enemigos[i].tipo == AVE) {
+                                puntos = 800;
+                                printf("¡Enemigo derrotado durante el salto! +800 puntos\n");
+                            } else if (enemigos[i].tipo == FOCA || enemigos[i].tipo == YETI) {
+                                puntos = 400;
+                                printf("¡Enemigo derrotado durante el salto! +400 puntos\n");
+                            } else if (enemigos[i].tipo == HIELO) {
+                                puntos = 10;
+                                printf("¡Bloque de hielo destruido durante el salto! +10 puntos\n");
+                            }
+                            if (puntos > 0) {
+                                sumar_puntaje(puntos);
+                            }
+                            enemigos[i].activo = 0;
+                            eliminar_del_mapa(nuevaFila - 1, nuevaColumna + 1);
+                            colocar_en_mapa(nuevaFila - 1, nuevaColumna + 1, 1);
+                            break;
+                        }
+                    }
+                    // Revisar casilla destino (fila-2, columna+2)
+                    for (int i = 0; i < MAX_ENEMIGOS_CONST; i++) {
+                        if (enemigos[i].activo && enemigos[i].fila == nuevaFila - 2 && enemigos[i].columna == nuevaColumna + 2) {
+                            int puntos = 0;
+                            if (enemigos[i].tipo == AVE) {
+                                puntos = 800;
+                                printf("¡Enemigo derrotado durante el salto! +800 puntos\n");
+                            } else if (enemigos[i].tipo == FOCA || enemigos[i].tipo == YETI) {
+                                puntos = 400;
+                                printf("¡Enemigo derrotado durante el salto! +400 puntos\n");
+                            } else if (enemigos[i].tipo == HIELO) {
+                                puntos = 10;
+                                printf("¡Bloque de hielo destruido durante el salto! +10 puntos\n");
+                            }
+                            if (puntos > 0) {
+                                sumar_puntaje(puntos);
+                            }
+                            enemigos[i].activo = 0;
+                            eliminar_del_mapa(nuevaFila - 2, nuevaColumna + 2);
+                            colocar_en_mapa(nuevaFila - 2, nuevaColumna + 2, 1);
+                            break;
+                        }
+                    }
                     nuevaFila -= 2;
                     nuevaColumna += 2;
                 }
@@ -105,6 +220,52 @@ void mover_jugador(Jugador* jugadores, int idx, int movimiento, int num_jugadore
                 if (nuevaFila >= 2 && nuevaColumna >= 2 &&
                     obtener_mapa(nuevaFila - 1, nuevaColumna - 1) != 2 &&
                     obtener_mapa(nuevaFila - 2, nuevaColumna - 2) != 2) {
+                    // Revisar casilla intermedia (fila-1, columna-1)
+                    for (int i = 0; i < MAX_ENEMIGOS_CONST; i++) {
+                        if (enemigos[i].activo && enemigos[i].fila == nuevaFila - 1 && enemigos[i].columna == nuevaColumna - 1) {
+                            int puntos = 0;
+                            if (enemigos[i].tipo == AVE) {
+                                puntos = 800;
+                                printf("¡Enemigo derrotado durante el salto! +800 puntos\n");
+                            } else if (enemigos[i].tipo == FOCA || enemigos[i].tipo == YETI) {
+                                puntos = 400;
+                                printf("¡Enemigo derrotado durante el salto! +400 puntos\n");
+                            } else if (enemigos[i].tipo == HIELO) {
+                                puntos = 10;
+                                printf("¡Bloque de hielo destruido durante el salto! +10 puntos\n");
+                            }
+                            if (puntos > 0) {
+                                sumar_puntaje(puntos);
+                            }
+                            enemigos[i].activo = 0;
+                            eliminar_del_mapa(nuevaFila - 1, nuevaColumna - 1);
+                            colocar_en_mapa(nuevaFila - 1, nuevaColumna - 1, 1);
+                            break;
+                        }
+                    }
+                    // Revisar casilla destino (fila-2, columna-2)
+                    for (int i = 0; i < MAX_ENEMIGOS_CONST; i++) {
+                        if (enemigos[i].activo && enemigos[i].fila == nuevaFila - 2 && enemigos[i].columna == nuevaColumna - 2) {
+                            int puntos = 0;
+                            if (enemigos[i].tipo == AVE) {
+                                puntos = 800;
+                                printf("¡Enemigo derrotado durante el salto! +800 puntos\n");
+                            } else if (enemigos[i].tipo == FOCA || enemigos[i].tipo == YETI) {
+                                puntos = 400;
+                                printf("¡Enemigo derrotado durante el salto! +400 puntos\n");
+                            } else if (enemigos[i].tipo == HIELO) {
+                                puntos = 10;
+                                printf("¡Bloque de hielo destruido durante el salto! +10 puntos\n");
+                            }
+                            if (puntos > 0) {
+                                sumar_puntaje(puntos);
+                            }
+                            enemigos[i].activo = 0;
+                            eliminar_del_mapa(nuevaFila - 2, nuevaColumna - 2);
+                            colocar_en_mapa(nuevaFila - 2, nuevaColumna - 2, 1);
+                            break;
+                        }
+                    }
                     nuevaFila -= 2;
                     nuevaColumna -= 2;
                 }
@@ -120,9 +281,14 @@ void mover_jugador(Jugador* jugadores, int idx, int movimiento, int num_jugadore
                             puntos = 800;
                         } else if (enemigos[i].tipo == FOCA || enemigos[i].tipo == YETI) {
                             puntos = 400;
+                        } else if (enemigos[i].tipo == HIELO) {
+                            puntos = 10;
+                            printf("¡Bloque de hielo destruido! +10 puntos\n");
+                        }
+                        if (puntos > 0 && enemigos[i].tipo != HIELO) {
+                            printf("¡Enemigo derrotado! +%d puntos\n", puntos);
                         }
                         if (puntos > 0) {
-                            printf("¡Enemigo derrotado! +%d puntos\n", puntos);
                             sumar_puntaje(puntos);
                         }
                         enemigos[i].activo = 0;

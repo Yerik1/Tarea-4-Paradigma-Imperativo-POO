@@ -42,6 +42,11 @@ void crear_enemigo(TipoEnemigo tipo, int fila, int columna, Direccion direccion)
             printf("No se puede crear FOCA/YETI en fila %d, columna %d: no es espacio vacío\n", fila, col);
             return;
         }
+        // Nueva restricción: la base (bloque debajo) debe ser un bloque # (2)
+        if (fila + 1 < 28 && obtener_mapa(fila + 1, col) != 2) {
+            printf("No se puede crear FOCA/YETI en fila %d, columna %d: la base no es un bloque #\n", fila, col);
+            return;
+        }
     } else if (tipo == HIELO) {
         // Hielo puede salir de cualquier fila/columna válida fuera del bonus
         if (fila < 10 || fila > 27) {
@@ -71,7 +76,7 @@ void crear_enemigo(TipoEnemigo tipo, int fila, int columna, Direccion direccion)
     }
 }
 
-void mover_enemigos(Jugador* jugadores, int num_jugadores) {
+void mover_enemigos(Jugador* jugadores, int num_jugadores, int* proximos_movimientos) {
     static int ave_zigzag_fase[MAX_ENEMIGOS] = {0}; // 0: sube1, 1: sube2, 2: baja1, 3: baja2
     for (int i = 0; i < MAX_ENEMIGOS; i++) {
         if (enemigos[i].activo) {
@@ -80,14 +85,34 @@ void mover_enemigos(Jugador* jugadores, int num_jugadores) {
             TipoEnemigo tipo = enemigos[i].tipo;
 
             if (tipo == YETI || tipo == FOCA) {
-                nueva_col += (enemigos[i].direccion == DERECHA) ? 1 : -1;
-                // Desaparecen al llegar al borde opuesto
-                if ((enemigos[i].direccion == DERECHA && nueva_col >= 19) ||
-                    (enemigos[i].direccion == IZQUIERDA && nueva_col <= 0)) {
+                int direccion = (enemigos[i].direccion == DERECHA) ? 1 : -1;
+                int siguiente_col = nueva_col + direccion;
+                // Verificar si se sale del mapa
+                if (siguiente_col < 0 || siguiente_col > 19) {
                     enemigos[i].activo = 0;
                     eliminar_del_mapa(enemigos[i].fila, enemigos[i].columna);
                     continue;
                 }
+                // Verificar que la base (bloque debajo) sea un bloque # (2)
+                if (nueva_fila + 1 < 28 && obtener_mapa(nueva_fila + 1, siguiente_col) != 2) {
+                    // Cambiar dirección y calcular nueva columna
+                    enemigos[i].direccion = (enemigos[i].direccion == DERECHA) ? IZQUIERDA : DERECHA;
+                    direccion = (enemigos[i].direccion == DERECHA) ? 1 : -1;
+                    siguiente_col = nueva_col + direccion;
+                    // Si al devolverse se sale del mapa, desaparece
+                    if (siguiente_col < 0 || siguiente_col > 19) {
+                        enemigos[i].activo = 0;
+                        eliminar_del_mapa(enemigos[i].fila, enemigos[i].columna);
+                        continue;
+                    }
+                    // Si la base sigue sin ser bloque #, desaparece
+                    if (nueva_fila + 1 < 28 && obtener_mapa(nueva_fila + 1, siguiente_col) != 2) {
+                        enemigos[i].activo = 0;
+                        eliminar_del_mapa(enemigos[i].fila, enemigos[i].columna);
+                        continue;
+                    }
+                }
+                nueva_col = siguiente_col;
             } else if (tipo == AVE) {
                 // Zigzag: sube 2 veces (1 fila y 1 col), baja 2 veces (1 fila y 1 col), repite
                 int fase = ave_zigzag_fase[i];
@@ -130,7 +155,9 @@ void mover_enemigos(Jugador* jugadores, int num_jugadores) {
             }
         }
     }
-    
+    // Llamar automáticamente a la verificación de colisiones después de mover enemigos
+    // NOTA: proximos_movimientos debe ser pasado como argumento
+    verificar_colision_jugadores_enemigos(jugadores, num_jugadores, proximos_movimientos);
 }
 
 void imprimir_enemigos() {
@@ -160,20 +187,6 @@ void crear_hielo(int fila, int columna) {
     crear_enemigo(HIELO, fila, columna, ABAJO);
 }
 
-void verificar_colision_jugador_enemigos(Jugador* jugador) {
-    for (int i = 0; i < MAX_ENEMIGOS_CONST; i++) {
-        if (enemigos[i].activo &&
-            enemigos[i].fila == jugador->fila &&
-            enemigos[i].columna == jugador->columna) {
-            printf("¡El jugador ha sido alcanzado por un enemigo! Pierde una vida.\n");
-            perder_vida(jugador, 0); // <-- Agregar índice 0 para el jugador único
-            colocar_en_mapa(jugador->fila, jugador->columna, 1); // Mantener al jugador en su posición
-            break; // Solo perder una vida por turno
-        }
-    }
-}
-
-// Cambia la firma para recibir los próximos movimientos
 void verificar_colision_jugadores_enemigos(Jugador* jugadores, int num_jugadores, int* proximos_movimientos) {
     for (int j = 0; j < num_jugadores; j++) {
         int colision = 0;

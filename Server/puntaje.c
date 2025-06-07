@@ -11,6 +11,10 @@ int obtener_puntaje() {
     return puntaje;
 }
 
+void reiniciar_puntaje() {
+    puntaje = 0;
+}
+
 void actualizar_puntaje_por_fruta(int fila, int columna) {
     int valor = obtener_mapa(fila, columna);
     switch (valor) {
