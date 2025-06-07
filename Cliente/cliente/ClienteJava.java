@@ -1,11 +1,18 @@
 //TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
 // click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
 // ClienteJava.java
+package cliente;
+
 import java.io.*;
 import java.net.*;
 import java.util.Scanner;
 
 public class ClienteJava {
+
+    public static void iniciarClienteDesdeGUI() {
+        new Thread(() -> main(null)).start(); // llama a main() en un hilo nuevo
+    }
+
     public static void main(String[] args) {
         String servidor = "localhost";
         int puerto = 12345;
