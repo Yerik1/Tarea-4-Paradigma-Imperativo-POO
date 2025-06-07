@@ -25,3 +25,13 @@
 679	768	7708792281084954	VSProjectPort.exe	46422cb30bb589c8
 5	711	7708794174710364	CMakeFiles/VSProjectPort.dir/Server.c.obj	a525a153cb185a7c
 712	802	7708794181768133	VSProjectPort.exe	46422cb30bb589c8
+9	217	7710346850259350	CMakeFiles/VSProjectPort.dir/Juego.c.obj	5f8bf98643703c46
+24	218	7710346850409486	CMakeFiles/VSProjectPort.dir/frutas.c.obj	c4187104d5845516
+38	218	7710346850549613	CMakeFiles/VSProjectPort.dir/mapa.c.obj	7f5fc2015590a72b
+29	219	7710346850459530	CMakeFiles/VSProjectPort.dir/jugador.c.obj	fe69b7b83a9236fb
+43	219	7710346850599655	CMakeFiles/VSProjectPort.dir/puntaje.c.obj	ae8ff049b7cc8ce3
+48	220	7710346850639696	CMakeFiles/VSProjectPort.dir/vidas.c.obj	f6f43ccbfd59ce9c
+19	220	7710346850359445	CMakeFiles/VSProjectPort.dir/enemigos.c.obj	fc4a04ad4fe7640a
+33	842	7710346850499563	CMakeFiles/VSProjectPort.dir/main.c.obj	e455d63c1b46e29
+15	869	7710346850319399	CMakeFiles/VSProjectPort.dir/Server.c.obj	a525a153cb185a7c
+869	1164	7710346858852589	VSProjectPort.exe	46422cb30bb589c8
