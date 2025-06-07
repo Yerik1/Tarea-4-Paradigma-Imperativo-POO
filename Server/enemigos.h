@@ -3,7 +3,10 @@
 
 #include "jugador.h"
 
+
 #define MAX_ENEMIGOS 10
+
+typedef struct GameState GameState;
 
 typedef enum { YETI, FOCA, AVE, HIELO } TipoEnemigo;
 typedef enum { DERECHA, IZQUIERDA, ARRIBA, ABAJO } Direccion;
@@ -16,15 +19,13 @@ typedef struct {
     int activo;
 } Enemigo;
 
-extern Enemigo enemigos[MAX_ENEMIGOS];
-extern const int MAX_ENEMIGOS_CONST;
-
-void inicializar_enemigos();
-void crear_ave(int fila);
-void crear_hielo(int fila, int columna);
-void crear_yeti(int fila, Direccion direccion);
-void crear_foca(int fila, Direccion direccion);
-void verificar_colision_jugadores_enemigos(Jugador* jugadores, int num_jugadores, int* proximos_movimientos);
-void mover_enemigos(Jugador* jugadores, int num_jugadores, int* proximos_movimientos);
+void inicializar_enemigos(struct GameState* game);
+void crear_ave(struct GameState* game, int fila);
+void crear_hielo(struct GameState* game, int fila, int columna);
+void crear_yeti(struct GameState* game, int fila, Direccion direccion);
+void crear_foca(struct GameState* game, int fila, Direccion direccion);
+void verificar_colision_jugadores_enemigos(struct GameState* game, int* proximos_movimientos);
+void mover_enemigos(struct GameState* game, int* proximos_movimientos);
+void imprimir_enemigos(struct GameState* game);
 
 #endif

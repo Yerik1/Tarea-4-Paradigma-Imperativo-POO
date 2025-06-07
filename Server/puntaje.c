@@ -1,34 +1,33 @@
 #include "puntaje.h"
 #include "mapa.h"
+#include "game_state.h"
 
-static int puntaje = 0;
-
-void sumar_puntaje(int puntos) {
-    puntaje += puntos;
+void sumar_puntaje(GameState* game, int puntos) {
+    game->puntaje += puntos;
 }
 
-int obtener_puntaje() {
-    return puntaje;
+int obtener_puntaje(GameState* game) {
+    return game->puntaje;
 }
 
-void reiniciar_puntaje() {
-    puntaje = 0;
+void reiniciar_puntaje(GameState* game) {
+    game->puntaje = 0;
 }
 
-void actualizar_puntaje_por_fruta(int fila, int columna) {
-    int valor = obtener_mapa(fila, columna);
+void actualizar_puntaje_por_fruta(GameState* game, int fila, int columna) {
+    int valor = game->matriz[fila][columna];
     switch (valor) {
         case 16: // Naranja
-            puntaje += 100;
+            game->puntaje += 100;
             break;
         case 15: // Banano
-            puntaje += 200;
+            game->puntaje += 200;
             break;
         case 13: // Berenjena
-            puntaje += 300;
+            game->puntaje += 300;
             break;
         case 14: // Lechuga
-            puntaje += 400;
+            game->puntaje += 400;
             break;
         default:
             break;
