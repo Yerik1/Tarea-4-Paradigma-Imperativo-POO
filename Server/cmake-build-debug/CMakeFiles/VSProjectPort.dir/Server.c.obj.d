@@ -280,4 +280,7 @@ CMakeFiles/VSProjectPort.dir/Server.c.obj: \
  C:\Users\user\Desktop\Tarea-4-Paradigma-Imperativo-POO\Server\Server.h \
  C:\Users\user\Desktop\Tarea-4-Paradigma-Imperativo-POO\Server\Juego.h \
  C:\Users\user\Desktop\Tarea-4-Paradigma-Imperativo-POO\Server\jugador.h \
- C:\Users\user\Desktop\Tarea-4-Paradigma-Imperativo-POO\Server\enemigos.h
+ C:\Users\user\Desktop\Tarea-4-Paradigma-Imperativo-POO\Server\enemigos.h \
+ C:/Users/user/AppData/Local/JetBrains/CLion\ 2025.1/bin/mingw/x86_64-w64-mingw32/include/process.h \
+ C:/Users/user/AppData/Local/JetBrains/CLion\ 2025.1/bin/mingw/x86_64-w64-mingw32/include/corecrt_startup.h \
+ C:/Users/user/AppData/Local/JetBrains/CLion\ 2025.1/bin/mingw/x86_64-w64-mingw32/include/sys/types.h

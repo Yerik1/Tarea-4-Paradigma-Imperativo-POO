@@ -6,7 +6,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="playBtn" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #000000;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.MainViewController">
+<AnchorPane id="playBtn" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #000000;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.MainViewController">
    <children>
       <Button id="playBtn" layoutX="251.0" layoutY="237.0" mnemonicParsing="false" onAction="#manejarBoton" prefHeight="44.0" prefWidth="98.0" style="-fx-font-family: Consolas; -fx-background-color: #000000; -fx-font-weight: bold; -fx-cursor: hand;" text="Jugar" textFill="WHITE">
          <font>
@@ -21,5 +21,21 @@
             <Font size="30.0" />
          </font>
       </Label>
+      <Button id="obsBtn1" layoutX="91.0" layoutY="313.0" mnemonicParsing="false" onAction="#observarBoton1" prefHeight="44.0" prefWidth="144.0" style="-fx-font-family: Consolas; -fx-background-color: #000000; -fx-font-weight: bold; -fx-cursor: hand;" text="Observar 1" textFill="WHITE">
+         <font>
+            <Font size="20.0" />
+         </font>
+         <cursor>
+            <Cursor fx:constant="CLOSED_HAND" />
+         </cursor>
+      </Button>
+      <Button id="obsBtn2" layoutX="365.0" layoutY="313.0" mnemonicParsing="false" onAction="#observarBoton2" prefHeight="44.0" prefWidth="144.0" style="-fx-font-family: Consolas; -fx-background-color: #000000; -fx-font-weight: bold; -fx-cursor: hand;" text="Observar 2" textFill="WHITE">
+         <font>
+            <Font size="20.0" />
+         </font>
+         <cursor>
+            <Cursor fx:constant="CLOSED_HAND" />
+         </cursor>
+      </Button>
    </children>
 </AnchorPane>

@@ -124,91 +124,182 @@ void procesar_comando(SOCKET cliente, const char* buffer) {
     }
 }
 
-void start() {
-    WSADATA wsa;
-    SOCKET servidor, clientes[MAX_CLIENTES];
-    struct sockaddr_in server_addr, client_addr;
-    int max_sd, actividad, addrlen, new_socket, valread;
-    fd_set readfds;
+#include <windows.h>  // Para Sleep
+#include <process.h>  // Para _beginthreadex
+
+#pragma comment(lib, "ws2_32.lib")
+
+#define MAX_CLIENTES 6
+#define PUERTO 12345
+
+SOCKET clientes[MAX_CLIENTES];
+CRITICAL_SECTION cs;  // Para proteger acceso a clientes[]
+
+unsigned __stdcall recibir_comandos(void* arg) {
     char buffer[1024];
-
-    inicializar_juegos();
-    for (int i = 0; i < MAX_CLIENTES; i++) clientes[i] = 0;
-
-    printf("Iniciando Winsock...\n");
-    if (WSAStartup(MAKEWORD(2, 2), &wsa) != 0) {
-        printf("Error en WSAStartup: %d\n", WSAGetLastError());
-        return;
-    }
-
-    servidor = socket(AF_INET, SOCK_STREAM, 0);
-    if (servidor == INVALID_SOCKET) {
-        printf("Error creando socket: %d\n", WSAGetLastError());
-        WSACleanup();
-        return;
-    }
-
-    server_addr.sin_family = AF_INET;
-    server_addr.sin_addr.s_addr = INADDR_ANY;
-    server_addr.sin_port = htons(12345);
-
-    if (bind(servidor, (struct sockaddr*)&server_addr, sizeof(server_addr)) == SOCKET_ERROR) {
-        printf("Error en bind: %d\n", WSAGetLastError());
-        closesocket(servidor);
-        WSACleanup();
-        return;
-    }
-
-    listen(servidor, 6);
-    printf("Servidor esperando conexiones en el puerto 12345...\n");
-
-    addrlen = sizeof(client_addr);
-
     while (1) {
-        FD_ZERO(&readfds);
-        FD_SET(servidor, &readfds);
-        max_sd = servidor;
 
         for (int i = 0; i < MAX_CLIENTES; i++) {
             SOCKET s = clientes[i];
-            if (s > 0) FD_SET(s, &readfds);
-            if (s > max_sd) max_sd = s;
+            if (s != 0) {
+                int valread = recv(s, buffer, sizeof(buffer) - 1, MSG_PEEK);
+                if (valread > 0) {
+                    valread = recv(s, buffer, sizeof(buffer) - 1, 0);
+                    buffer[valread] = '\0';
+                    printf("Comando recibido: %s", buffer);
+                    procesar_comando(s, buffer);
+                } else if (valread == 0 || WSAGetLastError() == WSAECONNRESET) {
+                    printf("Cliente desconectado\n");
+                    closesocket(s);
+                    clientes[i] = 0;
+                }
+            }
+        }
+        Sleep(50);
+    }
+    return 0;
+}
+
+void enviar_actualizacion(SOCKET socket_cliente, int matriz[28][20], int vidas[2], int puntaje) {
+    char mensaje[4096];  // Buffer suficientemente grande
+    strcpy(mensaje, "{\"matriz\":[");
+
+    for (int i = 0; i < 28; ++i) {
+        strcat(mensaje, "[");
+        for (int j = 0; j < 20; ++j) {
+            char temp[8];
+            sprintf(temp, "%d", matriz[i][j]);
+            strcat(mensaje, temp);
+            if (j < 19) strcat(mensaje, ",");
+        }
+        strcat(mensaje, "]");
+        if (i < 27) strcat(mensaje, ",");
+    }
+
+    // Agrega campos adicionales
+    char final[128];
+    sprintf(final, "],\"vidas1\":%d,\"vidas2\":%d,\"puntaje\":%d}", vidas[0],vidas[1], puntaje);
+    strcat(mensaje, final);
+
+
+    // Enviar
+    send(socket_cliente, mensaje, strlen(mensaje), 0);
+
+}
+
+unsigned __stdcall enviar_actualizaciones(void* arg) {
+    SOCKET destinos[MAX_CLIENTES];
+    int total_destinos;
+
+    while (1) {
+
+        total_destinos = 0;
+
+        for (int i = 0; i < MAX_CLIENTES; i++) {
+            if (clientes[i] != 0 &&
+               (clientes[i] == juegos[0].jugadores[0] ||
+                clientes[i] == juegos[0].observadores[0] ||
+                clientes[i] == juegos[0].observadores[1])) {
+                destinos[total_destinos++] = clientes[i];
+                }
         }
 
-        actividad = select(0, &readfds, NULL, NULL, NULL);
-        if (actividad == SOCKET_ERROR) {
-            printf("Error en select: %d\n", WSAGetLastError());
+        // Enviar fuera del lock
+        for (int i = 0; i < total_destinos; i++) {
+            enviar_actualizacion(destinos[i],
+                                 juegos[0].juego.matriz,
+                                 juegos[0].juego.vidas_jugador,
+                                 juegos[0].juego.puntaje);
+        }
+
+        Sleep(200);
+    }
+
+    return 0;
+}
+
+// Estructura para pasar múltiples argumentos al hilo
+typedef struct {
+    SOCKET socket;
+    int index;
+} ClienteArgs;
+
+// Función que manejará cada cliente de forma independiente
+unsigned __stdcall manejar_cliente(void* arg) {
+    ClienteArgs* args = (ClienteArgs*)arg;
+    SOCKET cliente = args->socket;
+    int idx = args->index;
+    free(arg); // Liberamos memoria reservada
+
+    char buffer[1024];
+    int recibido;
+
+    while (1) {
+        recibido = recv(cliente, buffer, sizeof(buffer) - 1, 0);
+        if (recibido <= 0) {
+            printf("Cliente %d desconectado.\n", idx);
+            closesocket(cliente);
+
+            EnterCriticalSection(&cs);
+            clientes[idx] = 0;
+            LeaveCriticalSection(&cs);
             break;
         }
 
-        if (FD_ISSET(servidor, &readfds)) {
-            new_socket = accept(servidor, (struct sockaddr*)&client_addr, &addrlen);
-            if (new_socket != INVALID_SOCKET) {
-                for (int i = 0; i < MAX_CLIENTES; i++) {
-                    if (clientes[i] == 0) {
-                        clientes[i] = new_socket;
-                        send(new_socket, "Bienvenido al servidor de juegos.\n", 34, 0);
-                        break;
-                    }
-                }
-            }
-        }
+        buffer[recibido] = '\0';  // Asegurar terminación
+        printf("[Cliente %d] Comando recibido: %s\n", idx, buffer);
 
-        for (int i = 0; i < MAX_CLIENTES; i++) {
-            SOCKET s = clientes[i];
-            if (FD_ISSET(s, &readfds)) {
-                valread = recv(s, buffer, sizeof(buffer) - 1, 0);
-                if (valread <= 0) {
-                    closesocket(s);
-                    clientes[i] = 0;
-                } else {
-                    buffer[valread] = '\0';
-                    procesar_comando(s, buffer);
+        procesar_comando(cliente, buffer);
+    }
+
+    return 0;
+}
+
+void start() {
+    WSADATA wsa;
+    SOCKET servidor;
+    struct sockaddr_in server_addr, client_addr;
+    int addrlen = sizeof(client_addr);
+
+    InitializeCriticalSection(&cs);
+    WSAStartup(MAKEWORD(2, 2), &wsa);
+    servidor = socket(AF_INET, SOCK_STREAM, 0);
+
+    server_addr.sin_family = AF_INET;
+    server_addr.sin_addr.s_addr = INADDR_ANY;
+    server_addr.sin_port = htons(PUERTO);
+
+    bind(servidor, (struct sockaddr*)&server_addr, sizeof(server_addr));
+    listen(servidor, MAX_CLIENTES);
+
+    printf("Servidor esperando conexiones...\n");
+
+    // Puedes dejar tus hilos globales también si son útiles
+    _beginthreadex(NULL, 0, recibir_comandos, NULL, 0, NULL);
+    _beginthreadex(NULL, 0, enviar_actualizaciones, NULL, 0, NULL);
+
+    while (1) {
+        SOCKET nuevo = accept(servidor, (struct sockaddr*)&client_addr, &addrlen);
+        if (nuevo != INVALID_SOCKET) {
+            EnterCriticalSection(&cs);
+            for (int i = 0; i < MAX_CLIENTES; i++) {
+                if (clientes[i] == 0) {
+                    clientes[i] = nuevo;
+                    send(nuevo, "Conectado al servidor.\n", 24, 0);
+
+                    // Crear argumentos para el nuevo hilo
+                    ClienteArgs* args = malloc(sizeof(ClienteArgs));
+                    args->socket = nuevo;
+                    args->index = i;
+
+                    _beginthreadex(NULL, 0, manejar_cliente, args, 0, NULL);
+                    break;
                 }
             }
+            LeaveCriticalSection(&cs);
         }
     }
 
-    closesocket(servidor);
+    DeleteCriticalSection(&cs);
     WSACleanup();
 }

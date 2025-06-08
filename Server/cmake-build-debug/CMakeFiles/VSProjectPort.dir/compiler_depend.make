@@ -144,6 +144,7 @@ CMakeFiles/VSProjectPort.dir/Server.c.obj: C:/Users/user/Desktop/Tarea-4-Paradig
   C:/Users/user/AppData/Local/JetBrains/CLion\ 2025.1/bin/mingw/x86_64-w64-mingw32/include/commdlg.h \
   C:/Users/user/AppData/Local/JetBrains/CLion\ 2025.1/bin/mingw/x86_64-w64-mingw32/include/concurrencysal.h \
   C:/Users/user/AppData/Local/JetBrains/CLion\ 2025.1/bin/mingw/x86_64-w64-mingw32/include/corecrt.h \
+  C:/Users/user/AppData/Local/JetBrains/CLion\ 2025.1/bin/mingw/x86_64-w64-mingw32/include/corecrt_startup.h \
   C:/Users/user/AppData/Local/JetBrains/CLion\ 2025.1/bin/mingw/x86_64-w64-mingw32/include/corecrt_stdio_config.h \
   C:/Users/user/AppData/Local/JetBrains/CLion\ 2025.1/bin/mingw/x86_64-w64-mingw32/include/corecrt_wstdlib.h \
   C:/Users/user/AppData/Local/JetBrains/CLion\ 2025.1/bin/mingw/x86_64-w64-mingw32/include/crtdefs.h \
@@ -201,6 +202,7 @@ CMakeFiles/VSProjectPort.dir/Server.c.obj: C:/Users/user/Desktop/Tarea-4-Paradig
   C:/Users/user/AppData/Local/JetBrains/CLion\ 2025.1/bin/mingw/x86_64-w64-mingw32/include/oleidl.h \
   C:/Users/user/AppData/Local/JetBrains/CLion\ 2025.1/bin/mingw/x86_64-w64-mingw32/include/playsoundapi.h \
   C:/Users/user/AppData/Local/JetBrains/CLion\ 2025.1/bin/mingw/x86_64-w64-mingw32/include/poppack.h \
+  C:/Users/user/AppData/Local/JetBrains/CLion\ 2025.1/bin/mingw/x86_64-w64-mingw32/include/process.h \
   C:/Users/user/AppData/Local/JetBrains/CLion\ 2025.1/bin/mingw/x86_64-w64-mingw32/include/processenv.h \
   C:/Users/user/AppData/Local/JetBrains/CLion\ 2025.1/bin/mingw/x86_64-w64-mingw32/include/processthreadsapi.h \
   C:/Users/user/AppData/Local/JetBrains/CLion\ 2025.1/bin/mingw/x86_64-w64-mingw32/include/processtopologyapi.h \
@@ -252,6 +254,7 @@ CMakeFiles/VSProjectPort.dir/Server.c.obj: C:/Users/user/Desktop/Tarea-4-Paradig
   C:/Users/user/AppData/Local/JetBrains/CLion\ 2025.1/bin/mingw/x86_64-w64-mingw32/include/stringapiset.h \
   C:/Users/user/AppData/Local/JetBrains/CLion\ 2025.1/bin/mingw/x86_64-w64-mingw32/include/swprintf.inl \
   C:/Users/user/AppData/Local/JetBrains/CLion\ 2025.1/bin/mingw/x86_64-w64-mingw32/include/synchapi.h \
+  C:/Users/user/AppData/Local/JetBrains/CLion\ 2025.1/bin/mingw/x86_64-w64-mingw32/include/sys/types.h \
   C:/Users/user/AppData/Local/JetBrains/CLion\ 2025.1/bin/mingw/x86_64-w64-mingw32/include/sysinfoapi.h \
   C:/Users/user/AppData/Local/JetBrains/CLion\ 2025.1/bin/mingw/x86_64-w64-mingw32/include/systemtopologyapi.h \
   C:/Users/user/AppData/Local/JetBrains/CLion\ 2025.1/bin/mingw/x86_64-w64-mingw32/include/threadpoolapiset.h \
@@ -829,9 +832,9 @@ C:/Users/user/AppData/Local/JetBrains/CLion\ 2025.1/bin/mingw/lib/gcc/x86_64-w64
 
 C:/Users/user/AppData/Local/JetBrains/CLion\ 2025.1/bin/mingw/lib/gcc/x86_64-w64-mingw32/13.1.0/include/avx512bf16vlintrin.h:
 
-C:/Users/user/AppData/Local/JetBrains/CLion\ 2025.1/bin/mingw/x86_64-w64-mingw32/include/corecrt_startup.h:
-
 C:/Users/user/AppData/Local/JetBrains/CLion\ 2025.1/bin/mingw/x86_64-w64-mingw32/include/wnnc.h:
+
+C:/Users/user/AppData/Local/JetBrains/CLion\ 2025.1/bin/mingw/x86_64-w64-mingw32/include/corecrt_startup.h:
 
 C:/Users/user/AppData/Local/JetBrains/CLion\ 2025.1/bin/mingw/lib/gcc/x86_64-w64-mingw32/13.1.0/include/serializeintrin.h:
 
