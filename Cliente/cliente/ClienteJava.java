@@ -136,7 +136,6 @@ public class ClienteJava {
                         }
 
                         String mensaje = new String(buffer, 0, leido);
-                        System.out.println("[DEBUG] Recibido: " + mensaje);
 
                         if (mensaje.startsWith("{")) {
                             Data info = gson.fromJson(mensaje, Data.class);

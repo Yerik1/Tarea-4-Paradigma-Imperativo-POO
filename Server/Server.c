@@ -201,7 +201,13 @@ unsigned __stdcall enviar_actualizaciones(void* arg) {
                 clientes[i] == juegos[0].observadores[0] ||
                 clientes[i] == juegos[0].observadores[1])) {
                 destinos[total_destinos++] = clientes[i];
+                }else if (clientes[i] != 0 &&
+               (clientes[i] == juegos[1].jugadores[0] ||
+                clientes[i] == juegos[1].observadores[0] ||
+                clientes[i] == juegos[1].observadores[1])) {
+                    destinos[total_destinos++] = clientes[i];
                 }
+
         }
 
         // Enviar fuera del lock
