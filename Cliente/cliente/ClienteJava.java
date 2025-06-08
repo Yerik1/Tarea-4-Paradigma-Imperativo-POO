@@ -12,18 +12,22 @@ import controller.GameViewController;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
+import javafx.scene.Scene;
+import javafx.scene.input.KeyEvent;
+import javafx.scene.input.KeyCode;
+import javafx.stage.Stage;
 
 public class ClienteJava {
 
     public static Data info = new Data();
 
-    public static void iniciarClienteDesdeGUI(GameViewController controller) {
-        new Thread(() -> main(controller)).start();
+    public static void iniciarClienteDesdeGUI(GameViewController controller, Scene scene) {
+        new Thread(() -> main(controller, scene)).start();
 
 
     }
 
-    public static void main(GameViewController controller) {
+    public static void main(GameViewController controller, Scene scene) {
         String servidor = "localhost";
         int puerto = 12345;
 
@@ -63,6 +67,18 @@ public class ClienteJava {
                                 }
                                 //System.out.println();
                             }
+                        }// 2. Si es texto: detectar y extraer número de juego
+                        else if (mensaje.startsWith("Jugador asignado al juego")) {
+                            try {
+                                // Extraer número con split
+                                String[] partes = mensaje.split(" ");
+                                int numJuego = Integer.parseInt(partes[partes.length - 1].trim());
+                                info.setJuego(numJuego);
+
+                                System.out.println("Juego asignado: " + numJuego);
+                            } catch (Exception e) {
+                                System.out.println("Error al extraer número de juego: " + e.getMessage());
+                            }
                         }
 
 
@@ -79,23 +95,37 @@ public class ClienteJava {
             });
             receptor.setDaemon(true); // Para que se cierre con el main
             receptor.start();
-
             // 🧾 Hilo principal: envía comandos
             while (true) {
-                System.out.println("Conectado al servidor. Escribe un comando:");
-                System.out.println("Ejemplos:");
-                System.out.println("  Crear Juego");
-                System.out.println("  Observar Juego 1");
-                System.out.println("  Mover Jugador 1 derecha 1");
-                System.out.println("  Cerrar Juego");
-                System.out.println("Escribe 'salir' para terminar.\n");
-                System.out.print(">> ");
-                String mensaje = scanner.nextLine();
+                scene.setOnKeyPressed(event -> {
+                    if (salida == null) return;
 
-                if (mensaje.equalsIgnoreCase("salir")) break;
+                    String direccion = null;
+                    String jugador = null;
+                    switch (event.getCode()) {
+                        case W:direccion = "arriba";jugador="1"; break;
+                        case UP: direccion = "arriba";jugador="2"; break;
+                        case S:  direccion = "abajo"; jugador="1"; break;
+                        case DOWN:  direccion = "abajo";jugador="2"; break;
+                        case A:direccion = "izquierda";jugador="1"; break;
+                        case LEFT: direccion = "izquierda";jugador="2"; break;
+                        case D:  direccion = "derecha"; jugador="1"; break;
+                        case RIGHT:  direccion = "derecha";jugador="2"; break;
 
-                salida.write(mensaje.getBytes());
-                salida.flush();
+                    }
+
+                    if (direccion != null) {
+                        String comando = "Mover Jugador " + jugador+ " " + direccion + " " + info.getJuego()+1;
+                        try {
+                            salida.write(comando.getBytes());
+                            salida.flush();
+                            System.out.println("Comando enviado: " + comando);
+                        } catch (IOException e) {
+                            System.err.println("Error enviando comando: " + e.getMessage());
+                        }
+                    }
+                });
+
             }
 
         } catch (IOException e) {

@@ -39,6 +39,8 @@ void reiniciar_ambos_jugadores_si_uno_muere(Partida* game) {
             game->jugadores[i].fila = 27;
             game->jugadores[i].columna = 1 + i;
             colocar_en_mapa(game, game->jugadores[i].fila, game->jugadores[i].columna, 1);
+            inicializar_mapa(game);
+
         }
         printf("Ambos jugadores han sido devueltos al primer nivel por quedarse sin vidas.\n");
     }

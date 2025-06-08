@@ -18,16 +18,17 @@ public class MainViewController {
             // Cargar el FXML y obtener el controlador
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/GameView.fxml"));
             Parent root = loader.load();
+            Scene scene = new Scene(root);
 
             // Obtener el controlador después del load()
             GameViewController controladorJuego = loader.getController();
 
             // Iniciar el cliente de red y pasarle el controlador
-            ClienteJava.iniciarClienteDesdeGUI(controladorJuego);
+            ClienteJava.iniciarClienteDesdeGUI(controladorJuego, scene);
 
             // Mostrar la nueva ventana
             Stage stage = new Stage();
-            stage.setScene(new Scene(root));
+            stage.setScene(scene);
             stage.setTitle("Ventana de Juego");
             stage.show();
 

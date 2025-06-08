@@ -18,12 +18,12 @@ void iniciar_juego(Partida* juego) {
 
 
 
-
-    inicializar_enemigos(juego);
     crear_foca(juego,11, DERECHA);
     crear_yeti(juego,13, IZQUIERDA);
     crear_ave(juego,15);
     crear_hielo(juego,11, 12);
+    inicializar_enemigos(juego);
+
     imprimir_mapa(juego);
 }
 
@@ -41,5 +41,6 @@ void turno_juego(Partida* juego) {
 void mover(Partida* juego, int jugador, int movimiento) {
     mover_jugador(juego, jugador, movimiento);
     imprimir_mapa(juego);
+    reiniciar_juego_si_uno_muere(juego);
 }
 

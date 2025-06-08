@@ -91,7 +91,7 @@ void* monitor_timeout3(void* arg) {
         double diff = difftime(ahora, ultima_vez_parametro_recibido);
         pthread_mutex_unlock(&lock);
 
-        if (diff >= 0.5) {
+        if (diff >= 0.1) {
             accion_por_timeout(args->juego,args->idx);
 
             // Reset para evitar múltiples ejecuciones
@@ -273,10 +273,26 @@ void mover_jugador(Partida* game, int idx, int movimiento) {
     else {
         switch(movimiento) {
             case 1: // derecha
-                if (nuevaColumna < 19) nuevaColumna++;
+                if (nuevaColumna < 19) {
+                    nuevaColumna++;
+                    if (jugador->fila!=27) {
+                        if (game->matriz[jugador->fila+1][nuevaColumna]==0) {
+                            en_aire[idx] = 1;
+                            flag=1;
+                        }
+                    }
+                }
                 break;
             case 2: // izquierda
-                if (nuevaColumna > 0) nuevaColumna--;
+                if (nuevaColumna > 0) {
+                    nuevaColumna--;
+                    if (jugador->fila!=27) {
+                        if (game->matriz[jugador->fila+1][nuevaColumna]==0) {
+                            en_aire[idx] = 1;
+                            flag=1;
+                        }
+                    }
+                }
                 break;
             // Salto diagonal derecha (case 4)
             case 4:
@@ -450,6 +466,16 @@ void mover_jugador(Partida* game, int idx, int movimiento) {
         args->juego=game;
         args->idx=valor;
         pthread_create(&hiloP3, NULL, monitor_timeout3, args);
+    }else if (flag && en_aire[idx]==1) {
+        int valor =idx;
+        flag =1;
+        pthread_t hiloP4;
+        pthread_mutex_init(&lock, NULL);
+        ultima_vez_parametro_recibido = time(NULL);
+        HiloArgs* args = malloc(sizeof(HiloArgs));
+        args->juego=game;
+        args->idx=valor;
+        pthread_create(&hiloP4, NULL, monitor_timeout3, args);
     }
 
 
